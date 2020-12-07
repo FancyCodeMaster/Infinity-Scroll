@@ -10,6 +10,9 @@ const count = 10;
 const key = "y0zOjPjM1q3DcsHpKMSbPevouBQM_s6AtmuGnpx-o9o";
 const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${key}&count=${count}`;
 
+// making the loader appear
+loader.hidden = false;
+
 // Making setAttributes Function to follow up DRY(Don't Repeat Yourself) process
 const setAttributes = (tag , attributes) => {
     for(const el in attributes) {
@@ -19,7 +22,10 @@ const setAttributes = (tag , attributes) => {
 
 // Creating function to create <a> <img> elements and display them.
 const displayImage = () => {
-
+    loadedImages = 0;
+    totalImages = photosArray.length;
+    // making loader hidden when displayImage gets executed.
+    loader.hidden = true;
     // Iterating through the whole array so that we can create elements for each array members
     // i.e. we are creating photos and providing them information on the basis of each members of the photosArray
     photosArray.forEach(photo => {
@@ -45,6 +51,9 @@ const displayImage = () => {
 
             loadedImages++;
             console.log(loadedImages);
+            if(loadedImages === totalImages) {
+                ready = true;
+            }
 
         });
 
@@ -71,7 +80,10 @@ getImages();
 // window is the parent of document and grandparent of body
 // it's work is to find out whether we are at the bottom of the entire body and when to call the async function again.
 window.addEventListener("scroll" , () => {
-    if((window.scrollY + window.innerHeight) >= (document.body.offSetHeight-1000)) {
+
+    if(window.scrollY + window.innerHeight >= document.body.offsetHeight - 1000 && ready) {
+        ready = false;
         getImages();
     }
+
 });
