@@ -1,3 +1,8 @@
-const name = "Rikesh Silwal";
+// DOMS
+const imageContainer = document.getElementById("image-container");
+const loader = document.getElementById("loader");
 
-console.log(name);
+// Unsplash API
+async function getImages() {
+    
+}
